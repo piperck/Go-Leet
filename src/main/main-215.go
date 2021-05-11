@@ -1,5 +1,3 @@
-// 剑指 Offer 40. 最小的 K 个数
-// 输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
 package main
 
 import (
@@ -91,28 +89,22 @@ func (h *maxHeap) shiftDown(parent int) {
 	return
 }
 
-func getLeastNumbers(arr []int, k int) []int {
-	if k == 0 {
-		return []int{}
+// 在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
+func findKthLargest(nums []int, k int) int {
+	maxHeap := make(maxHeap, 0, len(nums))
+
+	for _, v := range nums {
+		maxHeap.insert(v)
 	}
-	mh := make(maxHeap, 0, k)
-	for _, v := range arr {
-		if mh.isFull() {
-			if mh.peek() > v {
-				mh.remove()
-				mh.insert(v)
-			}
-			continue
-		}
-		mh.insert(v)
+
+	for i := 0; i < k-1; i++ {
+		maxHeap.remove()
 	}
-	return mh
+
+	return maxHeap.peek()
 }
 
-
 func main() {
-	//[0,0,0,2,0,5]
-	arr := []int{0,1,1,1,4,5,3,7,7,8,10,2,7,8,0,5,2,16,12,1,19,15,5,18,2,2,22,15,8,22,17,6,22,6,22,26,32,8,10,11,2,26,9,12,9,7,28,33,20,7,2,17,44,3,52,27,2,23,19,56,56,58,36,31,1,19,19,6,65,49,27,63,29,1,69,47,56,61,40,43,10,71,60,66,42,44,10,12,83,69,73,2,65,93,92,47,35,39,13,75}
-	//arr := []int{4, 5, 1, 6, 2, 7, 3, 8}
-	fmt.Println(getLeastNumbers(arr, 75))
+	nums := []int{3,2,1,5,6,4}
+	fmt.Println(findKthLargest(nums, 2))
 }
